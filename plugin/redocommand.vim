@@ -53,8 +53,15 @@ function! s:RemoveRedocommandFromHistory( commandexpr )
     " Verify whether the last history command actually corresponds to the current
     " :Redocommand by searching for the commandexpr argument. 
     " (this check isn't that trivial, because the command itself may have been
-    " remapped, e.g. to ':R'). 
-    if a:commandexpr == "" || stridx( histget("cmd", -1), a:commandexpr ) != -1
+    " remapped, e.g. to ':R', or only partially entered, e.g. ':Redo'). 
+
+    " First check the simple case that the command has not been remapped and is
+    " thus contained in the command history. 
+    if stridx( histget("cmd", -1), "Redocommand" ) != -1
+	call histdel("cmd", -1)
+    " If the command has not been found, search for the commandexpr. 
+    " If there wasn't a commandexpr, remove the history element, anyway. 
+    elseif a:commandexpr == "" || stridx( histget("cmd", -1), a:commandexpr ) != -1
 	call histdel("cmd", -1)
 """""D else
 """""D echomsg "redocommand.vim: Didn't remove command \"" . histget("cmd", -1) . "\" from history"
