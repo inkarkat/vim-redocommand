@@ -18,7 +18,13 @@
 "   ':Redocommand %' will execute ':%s/foo\0/bar/g'
 "   ':Redocommand foo' will execute ':%s/foo\0/bar/g'
 "
+"* INSTALLATION:
+"   Put the script into your user or system VIM plugin directory (e.g.
+"   ~/.vim/plugin)
+"
 "* CONFIGURATION:
+"   If you do not want the shorthand ':R' command, define
+"	let g:redocommand_no_short_command = 1
 "
 "* REMARKS:
 "   Modeled after Posix shell 'fc -s' command (which is often aliased to 'r'). 
@@ -28,6 +34,10 @@
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 " REVISION	DATE		REMARKS 
+"	0.02	30-Mar-2006	Added requirements check.
+"				Added (configurable) short command :R. 
+"				Replaced quirky 'RemoveRedocommandFromHistory()'
+"				with unconditional remove from history. 
 "	0.01	23-May-2005	file creation
 
 " Avoid installing twice or when in compatible mode
@@ -36,6 +46,14 @@ if exists("loaded_redocommand")
 endif
 let loaded_redocommand = 1
 
+" Requirement: command-line history compiled-in and activated
+if (! has("cmdline_hist")) || (&history < 2) 
+    finish
+endif
+
+if ! exists("g:redocommand_no_short_command")
+    command! -nargs=? -complete=command R call <SID>Redocommand(<f-args>)
+endif
 command! -nargs=? -complete=command Redocommand call <SID>Redocommand(<f-args>)
 
 function! s:Redocommand( ... )
@@ -52,7 +70,10 @@ function! s:Redocommand( ... )
 
     " The history must not be cluttered with :Redocommands. 
     " Remove the ':Redocommand' that is currently executed from the history. 
-    call s:RemoveRedocommandFromHistory(l:commandexpr)
+    " If someone foolishly uses :Redocommand in a mapping or script (where
+    " commands are not added to the history), an innocent last history entry
+    " will be removed - bad luck. 
+    call histdel("cmd", -1)
 
     let l:histnr = histnr("cmd") 
     while l:histnr > 0
@@ -68,29 +89,5 @@ function! s:Redocommand( ... )
     echohl WarningMsg
     echo "No command matching \"" . l:commandexpr . "\" found in history."
     echohl None
-endfunction
-
-function! s:RemoveRedocommandFromHistory( commandexpr )
-    " Verify whether the last history command actually corresponds to the current
-    " :Redocommand. If the command were issued from a script (though I cannot
-    " imagine why one would do that), VIM would not include it in the history. 
-    "
-    " This check isn't that trivial, because the command itself may have been
-    " remapped, e.g. to ':R', or only partially entered, e.g. ':Redo', or
-    " entered with leading spaces, e.g. ':    :::  Re'. 
-    " Even worse, it may be part of a chain of commands (e.g. ':set ai | Redo').
-    " In that case, the entire command line will be removed. 
-
-    " First check the simple case that the command has not been remapped and is
-    " thus contained in the command history. 
-    if stridx( histget("cmd", -1), "Redocommand" ) != -1
-	call histdel("cmd", -1)
-    " If the command has not been found, search for the commandexpr. 
-    " If there wasn't a commandexpr, remove the history element, anyway. 
-    elseif a:commandexpr == "" || stridx( histget("cmd", -1), a:commandexpr ) != -1
-	call histdel("cmd", -1)
-"""""D else
-"""""D echomsg "redocommand.vim: Didn't remove command \"" . histget("cmd", -1) . "\" from history"
-    endif
 endfunction
 
