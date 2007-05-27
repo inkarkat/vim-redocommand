@@ -1,14 +1,18 @@
 " redocommand.vim : Execute commands from the command history. 
 "
-"* DESCRIPTION:
-"   Reexecutes ex commands previously entered in command mode. A given string is
-"   used to locate the most recent matching command. This is similar to the
-"   command-line window (q:), or navigating the command history via <Up> and
-"   <Down>, but provides an even faster way to reexecuting a command if you
-"   remember some characters or an expression that identifies the command line. 
+" DESCRIPTION:
+"   Re-executes ex commands previously entered in command mode. An optional
+"   pattern is used to locate the most recent matching command. This is similar
+"   to the command-line window (q:), or navigating the command history via <Up>
+"   and <Down>, but provides an even faster way to re-executing a command if you
+"   remember some characters or a pattern that identifies the command line.
 "   The redocommand itself will not be included in the command history. 
 "
-"* EXAMPLE:
+" USAGE:
+"   :Redocommand (or abbreviated :R) executes the last ex command. 
+"   :Redocommand <pattern> executes the last ex command that matches <pattern>. 
+"
+" EXAMPLE:
 "   :history
 "   1 e foo.txt
 "   2 %s/foo/\0bar/g
@@ -18,19 +22,22 @@
 "   ':Redocommand %' will execute ':%s/foo\0/bar/g'
 "   ':Redocommand foo' will execute ':%s/foo\0/bar/g'
 "
-"* INSTALLATION:
-"   Put the script into your user or system VIM plugin directory (e.g.
-"   ~/.vim/plugin)
-"
-"* CONFIGURATION:
-"   If you do not want the shorthand ':R' command, define
-"	let g:redocommand_no_short_command = 1
-"
-"* REMARKS:
+" REMARKS:
 "   Modeled after Posix shell 'fc -s' command (which is often aliased to 'r'). 
 "
-"* TODO:
+" INSTALLATION:
+"   Put the script into your user or system VIM plugin directory (e.g.
+"   ~/.vim/plugin). 
+"
+" CONFIGURATION:
+"   If you do not want the shorthand ':R' command, define (e.g. in your .vimrc): 
+"	let g:redocommand_no_short_command = 1
+"
+" TODO:
 "   - implement ':Redocommand old=new commandexpr'
+"
+" Copyright: (C) 2005-2006 by Ingo Karkat
+"   The VIM LICENSE applies to this script; see ':help copyright'. 
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 " REVISION	DATE		REMARKS 
