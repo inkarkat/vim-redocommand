@@ -4,7 +4,7 @@
 "   Re-executes ex commands previously entered in command mode. An optional
 "   pattern is used to locate the most recent matching command. This is similar
 "   to the command-line window (q:), or navigating the command history via <Up>
-"   and <Down>, but provides an even faster way to re-executing a command if you
+"   and <Down>, but provides an even faster way to re-execute a command if you
 "   remember some characters or a pattern that identifies the command line.
 "   The redocommand itself will not be included in the command history. 
 "   Literal replacement can be done via 'old=new' arguments. 
@@ -17,8 +17,7 @@
 "	'magic' and 'ignorecase' apply. 
 "   :Redocommand old=new [old2=new2 ...] [<pattern>]
 "	Execute the last ex command (that matches <pattern>), literally
-"	replacing 'old' with 'new'. Escape '=' as '\=' if you want to include
-"	this character in <pattern>. 
+"	replacing 'old' with 'new'. 
 "
 " EXAMPLE:
 "   :history
@@ -37,6 +36,9 @@
 " INSTALLATION:
 "   Put the script into your user or system VIM plugin directory (e.g.
 "   ~/.vim/plugin). 
+"
+" DEPENDENCIES:
+"   - Requires VIM 7.0 or higher.  
 "
 " CONFIGURATION:
 "   If you do not want the shorthand ':R' command, define (e.g. in your .vimrc): 
@@ -71,7 +73,9 @@ if (! has('cmdline_hist')) || (&history < 2)
     finish
 endif
 
-let s:patternPattern = '\(^.\+\)\\\@<!=\(.*$\)'
+" To make the arg count as <pattern>, not a substitution, either use '.' instead
+" of '=', or have the pattern start with '='. 
+let s:patternPattern = '\(^.\+\)=\(.*$\)'
 function! s:IsSubstitution( arg )
     return a:arg =~ s:patternPattern
 endfunction
@@ -90,7 +94,7 @@ function! s:Substitute( expr, patterns )
 endfunction
 
 function! s:Redocommand( ... )
-    " An empty expression always matches, so this is used for the cornercase of
+    " An empty expression always matches, so this is used for the corner case of
     " no expression passed in, in which the last history command is executed. 
     let l:commandexpr = ''
     let l:substitutions = []
