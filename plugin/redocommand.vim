@@ -46,11 +46,12 @@
 "
 " TODO:
 "
-" Copyright: (C) 2005-2008 by Ingo Karkat
+" Copyright: (C) 2005-2009 by Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'. 
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 " REVISION	DATE		REMARKS 
+"   1.10.005	16-Jan-2009	Now setting v:errmsg on errors. 
 "   1.10.004	04-Aug-2008	Implemented ':Redocommand old=new <pattern>'. 
 "				Now requiring VIM 7. 
 "   1.00.003	04-Aug-2008	Better handling of errors during execution of
@@ -86,7 +87,7 @@ function! s:Substitute( expr, patterns )
 	let [l:match, l:from, l:to; l:rest] = matchlist( l:pattern, s:patternPattern )
 	" Assumption: Applicability of a:pattern has been checked before via
 	" s:IsSubstitution(). 
-	if empty(l:match) || empty(l:from) | throw 'assert: pattern can be applied. ' | endif
+	if empty(l:match) || empty(l:from) | throw 'ASSERT: Pattern can be applied. ' | endif
 	let l:replacement = substitute( l:replacement, '\V' . escape(l:from, '\'), escape(l:to, '\&~'), 'g' )
     endfor
 
@@ -134,8 +135,9 @@ function! s:Redocommand( ... )
 		echohl ErrorMsg
 		" v:exception contains what is normally in v:errmsg, but with extra
 		" exception source info prepended, which we cut away. 
-		echomsg substitute(v:exception, '^Vim\%((\a\+)\)\=:', '', '')
-		echohl NONE
+		let v:errmsg = substitute(v:exception, '^Vim\%((\a\+)\)\=:', '', '')
+		echomsg v:errmsg
+		echohl None
 	    endtry
 	    return
 	endif
