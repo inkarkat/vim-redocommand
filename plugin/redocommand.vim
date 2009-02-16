@@ -7,7 +7,7 @@
 "   and <Down>, but provides an even faster way to re-execute a command if you
 "   remember some characters or a pattern that identifies the command line.
 "   The redocommand itself will not be included in the command history. 
-"   Literal replacement can be done via 'old=new' arguments. 
+"   Global literal replacement can be done via 'old=new' arguments. 
 "
 " USAGE:
 "   :Redocommand (or abbreviated :R)
@@ -16,8 +16,8 @@
 "	Execute the last ex command that matches <pattern>. Settings such as
 "	'magic' and 'ignorecase' apply. 
 "   :Redocommand old=new [old2=new2 ...] [<pattern>]
-"	Execute the last ex command (that matches <pattern>), literally
-"	replacing 'old' with 'new'. 
+"	Execute the last ex command (that matches <pattern>), replacing all
+"	literal occurrences of 'old' with 'new'. 
 "
 " EXAMPLE:
 "   :history
@@ -145,7 +145,8 @@ function! s:Redocommand( ... )
     endwhile
 
     echohl WarningMsg
-    echo 'No command matching "' . l:commandexpr . '" found in history.'
+    let v:warningmsg = 'No command matching "' . l:commandexpr . '" found in history.'
+    echomsg v:warningmsg
     echohl None
 endfunction
 
