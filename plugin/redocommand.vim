@@ -12,11 +12,11 @@
 " USAGE:
 "   :Redocommand (or abbreviated :R)
 "	Execute the last ex command. 
-"   :Redocommand <pattern>
-"	Execute the last ex command that matches <pattern>. Settings such as
+"   :Redocommand {pattern}
+"	Execute the last ex command that matches {pattern}. Settings such as
 "	'magic' and 'ignorecase' apply. 
-"   :Redocommand old=new [old2=new2 ...] [<pattern>]
-"	Execute the last ex command (that matches <pattern>), replacing all
+"   :Redocommand old=new [old2=new2 ...] [{pattern}]
+"	Execute the last ex command (that matches {pattern}), replacing all
 "	literal occurrences of 'old' with 'new'. 
 "
 " EXAMPLE:
@@ -52,7 +52,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 " REVISION	DATE		REMARKS 
 "   1.10.005	16-Jan-2009	Now setting v:errmsg on errors. 
-"   1.10.004	04-Aug-2008	Implemented ':Redocommand old=new <pattern>'. 
+"   1.10.004	04-Aug-2008	Implemented ':Redocommand old=new {pattern}'. 
 "				Now requiring VIM 7. 
 "   1.00.003	04-Aug-2008	Better handling of errors during execution of
 "				the command. 
@@ -74,7 +74,7 @@ if (! has('cmdline_hist')) || (&history < 2)
     finish
 endif
 
-" To make the arg count as <pattern>, not a substitution, either use '.' instead
+" To make the arg count as {pattern}, not a substitution, either use '.' instead
 " of '=', or have the pattern start with '='. 
 let s:patternPattern = '\(^.\+\)=\(.*$\)'
 function! s:IsSubstitution( arg )
