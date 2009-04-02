@@ -70,7 +70,7 @@ endif
 let g:loaded_redocommand = 1
 
 " Requirement: command-line history compiled-in and activated
-if (! has('cmdline_hist')) || (&history < 2) 
+if ! has('cmdline_hist') || (&history < 2)
     finish
 endif
 
@@ -127,10 +127,10 @@ function! s:Redocommand( ... )
 	let l:historyCommand = histget('cmd', l:histnr)
 	if l:historyCommand =~ l:commandexpr
 	    let l:newCommand = s:Substitute( l:historyCommand, l:substitutions )
-	    echo ":" . l:newCommand
+	    echo ':' . l:newCommand
 	    try
 		execute l:newCommand
-		call histadd(':', l:newCommand)
+		call histadd('cmd', l:newCommand)
 	    catch /^Vim\%((\a\+)\)\=:E/
 		echohl ErrorMsg
 		" v:exception contains what is normally in v:errmsg, but with extra
@@ -141,7 +141,7 @@ function! s:Redocommand( ... )
 	    endtry
 	    return
 	endif
-	let l:histnr = l:histnr - 1
+	let l:histnr -= 1
     endwhile
 
     echohl WarningMsg
