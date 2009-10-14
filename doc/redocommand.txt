@@ -65,13 +65,13 @@ Given the following history: >
 ==============================================================================
 INSTALLATION					    *redocommand-installation*
 
-This script is packaged as a|vimball|. If you have the "gunzip" decompressor
+This script is packaged as a |vimball|. If you have the "gunzip" decompressor
 in your PATH, simply edit the *.vba.gz package in VIM; otherwise, decompress
 the archive first, e.g. using WinZip. Inside VIM, install by sourcing the
-vimball or via the|:UseVimball|command. >
+vimball or via the |:UseVimball| command. >
     vim redocommand.vba.gz
     :so %
-To uninstall, use the|:RmVimball|command. 
+To uninstall, use the |:RmVimball| command. 
 
 DEPENDENCIES					    *redocommand-dependencies*
 
@@ -80,7 +80,7 @@ DEPENDENCIES					    *redocommand-dependencies*
 ==============================================================================
 CONFIGURATION					   *redocommand-configuration*
 
-If you do not want the shorthand ':R' command, define (e.g. in your|vimrc|): >
+If you do not want the shorthand ':R' command, define (e.g. in your |vimrc|): >
     let g:redocommand_no_short_command = 1
 
 ==============================================================================
@@ -113,7 +113,7 @@ Started development.
 
 ==============================================================================
 Copyright: (C) 2005-2009 by Ingo Karkat
-The VIM LICENSE applies to this script; see|copyright|. 
+The VIM LICENSE applies to this script; see |copyright|. 
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
 ==============================================================================
