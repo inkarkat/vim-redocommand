@@ -1,7 +1,7 @@
 " redocommand.vim : Execute commands from the command history. 
 "
 " DEPENDENCIES:
-"   - Requires VIM 7.0 or higher.  
+"   - Requires Vim 7.0 or higher.  
 "
 " Copyright: (C) 2005-2009 by Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'. 
@@ -14,7 +14,7 @@
 "				script. 
 "   1.10.005	16-Jan-2009	Now setting v:errmsg on errors. 
 "   1.10.004	04-Aug-2008	Implemented ':Redocommand old=new {pattern}'. 
-"				Now requiring VIM 7. 
+"				Now requiring Vim 7. 
 "   1.00.003	04-Aug-2008	Better handling of errors during execution of
 "				the command. 
 "				The redone command is added to the history. 
@@ -24,7 +24,7 @@
 "				with unconditional remove from history. 
 "	0.01	23-May-2005	file creation
 
-" Avoid installing twice or when in unsupported VIM version.  
+" Avoid installing twice or when in unsupported Vim version.  
 if exists('g:loaded_redocommand') || (v:version < 700)
     finish
 endif
