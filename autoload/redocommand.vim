@@ -115,4 +115,4 @@ function! redocommand#Redocommand( count, ... )
     call s:Redocommand(a:count, l:substitutions, l:commandexpr)
 endfunction
 
-" vim: set sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
+" vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
