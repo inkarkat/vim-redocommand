@@ -40,4 +40,4 @@ if ! exists('g:redocommand_no_short_command') || ! g:redocommand_no_short_comman
 endif
 command! -count=1 -nargs=* -complete=command Redocommand call redocommand#Redocommand(<count>, <f-args>)
 
-" vim: set sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
+" vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
