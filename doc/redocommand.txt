@@ -49,10 +49,16 @@ USAGE							   *redocommand-usage*
 			beginning. This is convenient because ":R :echo" is
 			more intuitive to type than ":R ^echo". 
 
-:[N]Redocommand old=new [old2=new2 ...] [{pattern}]
+:[N]Redocommand {old}={new} [{old2}={new2} ...] [{pattern}]
 			Execute the last / Nth ex command (that matches
-			{pattern}), replacing all literal occurrences of 'old'
-			with 'new'. 
+			{pattern}), replacing all literal occurrences of {old}
+			with {new}. 
+								 *:RedoRepeat*
+:RedoRepeat [{old}={new} ...] (or abbreviated :RR)
+			Execute the last ex command that was repeated via
+			:Redocommand. Any replacements done the last time are
+			still in effect; new replacements of {old} to {new}
+			can be added. 
 
 ==============================================================================
 EXAMPLE							 *redocommand-example*
@@ -67,6 +73,12 @@ Given the following history: >
 :Redocommand foo	will execute :%s/foo\0/bar/g
 :2Redocommand foo	will execute :e foo.txt
 :Redocommand b=B .txt=	will execute ':w bar.txt' as :w Bar
+
+:echo "another command"
+:RedoRepeat		will again execute :w Bar
+:RedoRepeat B=F		will execute :w Far
+:Redocommand		will execute :echo "another command"
+:RedoRepeat		will execute :w Far
 
 ==============================================================================
 INSTALLATION					    *redocommand-installation*
@@ -86,22 +98,25 @@ DEPENDENCIES					    *redocommand-dependencies*
 ==============================================================================
 CONFIGURATION					   *redocommand-configuration*
 
-If you do not want the shorthand ':R' command, define (e.g. in your |vimrc|): >
+If you do not want the shorthand :R and :RR commands, define (e.g. in your
+|vimrc|): >
     let g:redocommand_no_short_command = 1
 
 ==============================================================================
-LIMITATIONS					     redocommand-limitations
+LIMITATIONS					     *redocommand-limitations*
 
-==============================================================================
-KNOWN PROBLEMS					  redocommand-known-problems
+KNOWN PROBLEMS					  *redocommand-known-problems*
 
-==============================================================================
-TODO							    redocommand-todo
+TODO							    *redocommand-todo*
 
-IDEAS							   redocommand-ideas
+IDEAS							   *redocommand-ideas*
 
 ==============================================================================
 HISTORY							 *redocommand-history*
+
+1.30	21-Nov-2011
+ENH: Add :RedoRepeat command to repeat the last :Redocommand when other Ex
+commands (e.g. :wnext) were issued in between. 
 
 1.21	15-Oct-2009
 ENH: If the {pattern} starts with : (and there is no history command matching
@@ -124,10 +139,9 @@ First published version.
 Started development. 
 
 ==============================================================================
-Copyright: (C) 2005-2009 Ingo Karkat
+Copyright: (C) 2005-2011 Ingo Karkat
 The VIM LICENSE applies to this script; see |copyright|. 
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
 ==============================================================================
  vim:tw=78:ts=8:ft=help:norl:
-
