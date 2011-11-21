@@ -3,11 +3,14 @@
 " DEPENDENCIES:
 "   - Requires Vim 7.0 or higher.  
 "
-" Copyright: (C) 2005-2009 by Ingo Karkat
+" Copyright: (C) 2005-2011 by Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'. 
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 " REVISION	DATE		REMARKS 
+"   1.30.007	21-Nov-2011	ENH: Add :RedoRepeat command to repeat the last
+"				:Redocommand when other Ex commands (e.g.
+"				:wnext) were issued in between. 
 "   1.20.006	03-Apr-2009	Added optional [count] to repeat the Nth, not
 "				the last found match. 
 "				Moved functions from plugin to separate autoload
@@ -36,8 +39,10 @@ if ! has('cmdline_hist') || (&history < 2)
 endif
 
 if ! exists('g:redocommand_no_short_command') || ! g:redocommand_no_short_command
-    command! -count=1 -nargs=* -complete=command R call redocommand#Redocommand(<count>, <f-args>)
+    command! -count=1 -nargs=* -complete=command R  call redocommand#Redocommand(<count>, <f-args>)
+    command!          -nargs=* -complete=command RR call redocommand#RedoRepeat(<f-args>)
 endif
 command! -count=1 -nargs=* -complete=command Redocommand call redocommand#Redocommand(<count>, <f-args>)
+command!          -nargs=* -complete=command RedoRepeat  call redocommand#RedoRepeat(<f-args>)
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
