@@ -54,11 +54,11 @@ USAGE							   *redocommand-usage*
 			{pattern}), replacing all literal occurrences of {old}
 			with {new}. 
 								 *:RedoRepeat*
-:RedoRepeat [{old}={new} ...] (or abbreviated :RR)
-			Execute the last ex command that was repeated via
-			:Redocommand. Any replacements done the last time are
-			still in effect; new replacements of {old} to {new}
-			can be added. 
+:[N]RedoRepeat [{old}={new} ...] (or abbreviated :RR)
+			Execute the last / Nth ex command that was repeated
+			via :Redocommand. Any replacements done the last time
+			are still in effect; new replacements of {old} to
+			{new} can be added. 
 
 ==============================================================================
 EXAMPLE							 *redocommand-example*
@@ -76,6 +76,7 @@ Given the following history: >
 
 :echo "another command"
 :RedoRepeat		will again execute :w Bar
+:2RedoRepeat		will execute :%s/foo\0/bar/g
 :RedoRepeat B=F		will execute :w Far
 :Redocommand		will execute :echo "another command"
 :RedoRepeat		will execute :w Far
@@ -114,11 +115,11 @@ IDEAS							   *redocommand-ideas*
 ==============================================================================
 HISTORY							 *redocommand-history*
 
-1.30	21-Nov-2011
-ENH: Add :RedoRepeat command to repeat the last :Redocommand when other Ex
-commands (e.g. :wnext) were issued in between. 
+1.30	23-Nov-2011
+ENH: Add :RedoRepeat command to repeat the last / Nth :Redocommand when other
+Ex commands (e.g. :wnext) were issued in between. 
 
-1.21	15-Oct-2009
+1.21	15-Oct-2009 (unreleased)
 ENH: If the {pattern} starts with : (and there is no history command matching
 the literal ":cmd"), the history is searched for "cmd", anchored at the
 beginning. This is convenient because ":R :echo" is more intuitive to type
