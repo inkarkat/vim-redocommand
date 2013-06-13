@@ -17,7 +17,7 @@ history				|redocommand-history|
 ==============================================================================
 DESCRIPTION					     *redocommand-description*
 
-Re-executes the last / Nth ex command previously entered in command mode. An
+Re-executes the last / Nth Ex command previously entered in command mode. An
 optional pattern is used to locate the most recent matching command. This is
 similar to the command-line window (q:), or navigating the command history via
 <Up> and <Down>, but provides an even faster way to re-execute a command if
@@ -32,10 +32,10 @@ aliased to 'r').
 USAGE							   *redocommand-usage*
 								*:Redocommand*
 :[N]Redocommand (or abbreviated :R)
-			Execute the last / Nth ex command.
+			Execute the last / Nth Ex command.
 
 :[N]Redocommand {pattern}
-			Execute the last / Nth ex command that matches
+			Execute the last / Nth Ex command that matches
 			{pattern}.
 			Settings such as 'magic' and 'ignorecase' apply.
 
@@ -50,12 +50,12 @@ USAGE							   *redocommand-usage*
 			more intuitive to type than ":R ^echo".
 
 :[N]Redocommand {old}={new} [{old2}={new2} ...] [{pattern}]
-			Execute the last / Nth ex command (that matches
+			Execute the last / Nth Ex command (that matches
 			{pattern}), replacing all literal occurrences of {old}
 			with {new}.
 								 *:RedoRepeat*
 :[N]RedoRepeat [{old}={new} ...]       (or abbreviated :RR)
-			Execute the last / Nth ex command that was repeated
+			Execute the last / Nth Ex command that was repeated
 			via :Redocommand. Any replacements done the last time
 			are still in effect; new replacements of {old} to
 			{new} can be added.
@@ -65,11 +65,11 @@ buffer and command B in another. Instead of passing different [N] values to
 :RedoRepeat, just recall from the local redo history.
 							   *:RedoBufferRepeat*
 :[N]RedoBufferRepeat [{old}={new} ...] (or abbreviated :RB)
-			Like |:RedoRepeat|, but repeat the last / Nth ex
+			Like |:RedoRepeat|, but repeat the last / Nth Ex
 			command repeated in the current buffer.
 							   *:RedoWindowRepeat*
 :[N]RedoWindowRepeat [{old}={new} ...] (or abbreviated :RW)
-			Like |:RedoRepeat|, but repeat the last / Nth ex
+			Like |:RedoRepeat|, but repeat the last / Nth Ex
 			command repeated in the current window.
 
 
