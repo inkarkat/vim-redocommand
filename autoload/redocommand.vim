@@ -1,12 +1,14 @@
 " redocommand.vim: Execute commands from the command history.
 "
 " DEPENDENCIES:
+"   - ingo/msg.vim autoload script
 "
-" Copyright: (C) 2005-2012 Ingo Karkat
+" Copyright: (C) 2005-2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 " REVISION	DATE		REMARKS
+"   1.41.006	14-Jun-2013	Use ingo/msg.vim.
 "   1.40.005	20-Jul-2012	ENH: Add :RedoBufferRepeat and
 "				:RedoWindowRepeat commands.
 "   1.30.004	22-Nov-2011	ENH: Allow repeat of any :Redocommand via
@@ -65,12 +67,7 @@ function! s:SubstituteAndRedo( historyCommand, substitutions )
 	execute l:redoCommand
 	call histadd('cmd', l:redoCommand)
     catch /^Vim\%((\a\+)\)\=:E/
-	echohl ErrorMsg
-	" v:exception contains what is normally in v:errmsg, but with extra
-	" exception source info prepended, which we cut away.
-	let v:errmsg = substitute(v:exception, '^Vim\%((\a\+)\)\=:', '', '')
-	echomsg v:errmsg
-	echohl None
+	call ingo#msg#VimExceptionMsg()
     endtry
 
     return l:redoCommand
@@ -142,18 +139,10 @@ function! s:RedoRepeat( commands, count, ... )
     call histdel('cmd', -1)
 
     if empty(a:commands)
-	let v:errmsg = 'No :Redocommand to repeat'
-	echohl ErrorMsg
-	echomsg v:errmsg
-	echohl None
-
+	call ingo#msg#ErrorMsg('No :Redocommand to repeat')
 	return
     elseif len(a:commands) < a:count
-	let v:errmsg = printf('Only %d :Redocommand%s to repeat', len(a:commands), (len(a:commands) == 1 ? '' : 's'))
-	echohl ErrorMsg
-	echomsg v:errmsg
-	echohl None
-
+	call ingo#msg#ErrorMsg(printf('Only %d :Redocommand%s to repeat', len(a:commands), (len(a:commands) == 1 ? '' : 's')))
 	return
     endif
 
@@ -165,11 +154,7 @@ function! redocommand#RedoRepeat( count, ... )
 endfunction
 function! redocommand#RedoBufferRepeat( count, ... )
     if ! exists('b:redoCommands')
-	let v:errmsg = 'No :Redocommand to repeat' . (empty(s:redoCommands) ? '' : ' for this buffer')
-	echohl ErrorMsg
-	echomsg v:errmsg
-	echohl None
-
+	call ingo#msg#ErrorMsg('No :Redocommand to repeat' . (empty(s:redoCommands) ? '' : ' for this buffer'))
 	return
     endif
 
@@ -177,11 +162,7 @@ function! redocommand#RedoBufferRepeat( count, ... )
 endfunction
 function! redocommand#RedoWindowRepeat( count, ... )
     if ! exists('w:redoCommands')
-	let v:errmsg = 'No :Redocommand to repeat' . (empty(s:redoCommands) ? '' : ' for this window')
-	echohl ErrorMsg
-	echomsg v:errmsg
-	echohl None
-
+	call ingo#msg#ErrorMsg('No :Redocommand to repeat' . (empty(s:redoCommands) ? '' : ' for this window'))
 	return
     endif
 
