@@ -3,7 +3,7 @@
 " DEPENDENCIES:
 "   - ingo/msg.vim autoload script
 "
-" Copyright: (C) 2005-2013 Ingo Karkat
+" Copyright: (C) 2005-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -66,7 +66,7 @@ function! s:SubstituteAndRedo( historyCommand, substitutions )
     try
 	execute l:redoCommand
 	call histadd('cmd', l:redoCommand)
-    catch /^Vim\%((\a\+)\)\=:E/
+    catch /^Vim\%((\a\+)\)\=:/
 	call ingo#msg#VimExceptionMsg()
     endtry
 
