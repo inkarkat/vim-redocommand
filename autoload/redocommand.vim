@@ -8,6 +8,7 @@
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 " REVISION	DATE		REMARKS
+"   1.41.007	05-May-2014	Use ingo#msg#WarningMsg().
 "   1.41.006	14-Jun-2013	Use ingo/msg.vim.
 "   1.40.005	20-Jul-2012	ENH: Add :RedoBufferRepeat and
 "				:RedoWindowRepeat commands.
@@ -49,15 +50,13 @@ endfunction
 
 function! s:WarnAboutNoMatch( commandexpr, count, matchCnt )
     if a:count == 0
-	let v:warningmsg = printf('The last command does not match "%s".', a:commandexpr)
+	let l:warningmsg = printf('The last command does not match "%s".', a:commandexpr)
     elseif a:count > 1 && a:matchCnt > 0
-	let v:warningmsg = printf('Only %d command%s matching "%s" found in history.', a:matchCnt, (a:matchCnt == 1 ? '' : 's'), a:commandexpr)
+	let l:warningmsg = printf('Only %d command%s matching "%s" found in history.', a:matchCnt, (a:matchCnt == 1 ? '' : 's'), a:commandexpr)
     else
-	let v:warningmsg = printf('No command matching "%s" found in history.', a:commandexpr)
+	let l:warningmsg = printf('No command matching "%s" found in history.', a:commandexpr)
     endif
-    echohl WarningMsg
-    echomsg v:warningmsg
-    echohl None
+    call ingo#msg#WarningMsg(l:warningmsg)
 endfunction
 let s:redoCommands = []
 function! s:SubstituteAndRedo( historyCommand, substitutions )
