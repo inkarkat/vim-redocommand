@@ -108,6 +108,8 @@ To uninstall, use the |:RmVimball| command.
 DEPENDENCIES					    *redocommand-dependencies*
 
 - Requires Vim 7.0 or higher.
+- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.008 or
+  higher.
 
 ==============================================================================
 CONFIGURATION					   *redocommand-configuration*
@@ -127,6 +129,9 @@ IDEAS							   *redocommand-ideas*
 
 ==============================================================================
 HISTORY							 *redocommand-history*
+
+1.41	RELEASEME
+- Add dependency to ingo-library (vimscript #4433).
 
 1.40	20-Jul-2012
 ENH: Add :RedoBufferRepeat / :RB and :RedoWindowRepeat / :RW commands. These
@@ -159,7 +164,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2005-2012 Ingo Karkat
+Copyright: (C) 2005-2013 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
